@@ -1,93 +1,108 @@
-#include <iostream>
-#include <string>
-#include <vector>
+#include<iostream>
 using namespace std;
 
-// Class definition
-class Student {
-private:
-    string name;
-    int rollNumber;
-    string studentClass;
-    char division;
-    string dateOfBirth;
-    string bloodGroup;
-    string contactAddress;
-    string telephoneNumber;
-    string drivingLicenseNumber;
+class student
+{
+    private:
+     string name;
+     string Class;
+     string div;
+     string rollno;
+     int age;
+     string dob;
+     string bg;
+     string gender;
+     long int mobileno;
+     long int lisenno;
 
-public:
-    // Default constructor
-    Student() {
-        name = "Unknown";
-        rollNumber = 0;
-        studentClass = "None";
-        division = 'X';
-        dateOfBirth = "01/01/2000";
-        bloodGroup = "Unknown";
-        contactAddress = "Unknown";
-        telephoneNumber = "Unknown";
-        drivingLicenseNumber = "Unknown";
+     public:
+    student() //default constructor
+    {
+        cout<<"constructor is invoked"<<endl;
     }
+    student( student& ptr) //copy constructor;
+    {
+        name=ptr.name;
+    }
+    ~student() //distructor
+    {
+        cout<<"distructor is invoked"<<endl;   
+    }
+     static int count;
+     //ount=10;
+     static void counting() //static data member function
+     {
+        count++;
+        cout<<"static count is"<<count<<endl;
 
-    // Parameterized constructor
-    Student(string n, int r, string cls, char div, string dob, string bg, string addr, string phone, string dl) {
-        name = n;
-        rollNumber = r;
-        studentClass = cls;
-        division = div;
-        dateOfBirth = dob;
-        bloodGroup = bg;
-        contactAddress = addr;
-        telephoneNumber = phone;
-        drivingLicenseNumber = dl;
-    }
-    ~Student(){}
+     }
+    
+     void dynamic() //dyanamic memory allocation
+     {
+        int *value=new int(10);
+        cout<<"output value"<<value<<endl;
+        cout<<"This point adrres: "<<this<<endl;
 
-    // Function to display student details
-    void displayDetails() {
-        cout << "\nStudent Details:\n";
-        cout << "Name: " << name << endl;
-        cout << "Roll Number: " << rollNumber << endl;
-        cout << "Class: " << studentClass << endl;
-        cout << "Division: " << division << endl;
-        cout << "Date of Birth: " << dateOfBirth << endl;
-        cout << "Blood Group: " << bloodGroup << endl;
-        cout << "Contact Address: " << contactAddress << endl;
-        cout << "Telephone Number: " << telephoneNumber << endl;
-        cout << "Driving License Number: " << drivingLicenseNumber << endl;
-    }
+     }
 
-    // Function to input student details
-    void inputDetails() {
-        cout << "\nEnter Student Details:\n";
-        cout << "Name: ";
-        getline(cin, name);
-        cout << "Roll Number: ";
-        cin >> rollNumber;
-       // cin.ignore(); // Clear the newline character from the input buffer
-        cout << "Class: ";
-        getline(cin, studentClass);
-        cout << "Division: ";
-        cin >> division;
-       // cin.ignore();
-        cout << "Date of Birth (DD/MM/YYYY): ";
-        getline(cin, dateOfBirth);
-        cout << "Blood Group: ";
-        getline(cin, bloodGroup);
-        cout << "Contact Address: ";
-        getline(cin, contactAddress);
-        cout << "Telephone Number: ";
-        getline(cin, telephoneNumber);
-        cout << "Driving License Number: ";
-        getline(cin, drivingLicenseNumber);
-    }
+     inline void getdata(); //inline function
+     friend class Display; //friend class
+     //void display();
+
 };
 
-int main() {
-
-    Student s1;
-    s1.inputDetails();
-    s1.displayDetails();
-    return 0;
+int student::count=10;
+inline void student::getdata()
+{
+    cout<<"Enter the name: ";
+    getline(cin>>ws,name);
+    cout<<"Enter class: ";
+    getline(cin>>ws,Class);
+    cout<<"Enter Division: ";
+    getline(cin>>ws,div);
+    cout<<"Enter roll number: ";
+    getline(cin>>ws,rollno);
+    cout<<"enter age: ";
+    cin>>age;
+    cout<<"Enter the date of birth: ";
+    getline(cin>>ws,dob);
+    cout<<"Enter blood group: ";
+    getline(cin>>ws,bg);
+    cout<<"Enter gender: ";
+    getline(cin>>ws,gender);
+    cout<<"Enter mobile number: ";
+    cin>>mobileno;
+    cout<<"Enter lisen number: ";
+    cin>>lisenno;
 }
+
+class Display
+{
+public:
+
+ void display(student & x)
+ {
+  cout<<"Student information"<<endl;
+  cout<<"Student name: "<<x.name<<endl;
+  cout<<"Class: "<<x.Class<<endl;
+  cout<<"Division: "<<x.div<<endl;
+  cout<<"ROLL number: "<<x.rollno<<endl;
+  cout<<"Age: "<<x.age<<endl;
+  cout<<"Date of birth: "<<x.dob<<endl;
+  cout<<"Blood Group: "<<x.bg<<endl;
+  cout<<"Gender: "<<x.gender<<endl;
+  cout<<"Mobile Number: "<<x.mobileno<<endl;
+  cout<<"Lisen number: "<<x.lisenno<<endl;
+ }
+};
+
+int main()
+{
+    student obj;
+   Display obj2;
+    obj.getdata();
+    obj.counting();
+    obj2.display(obj);
+    obj.dynamic();
+return 0;
+    }
