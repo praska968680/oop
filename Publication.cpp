@@ -2,7 +2,7 @@
 #include <fstream>  // file handling class 
 using namespace std; 
 class Employee 
-{ 
+{   
 string name; 
 int ID; 
 double salary; 
