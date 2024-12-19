@@ -1,204 +1,246 @@
-#include <iostream> 
-#include <cstring> 
-using namespace std; 
- 
-struct Node { 
-    int prn, rollno; 
-    char name[50]; 
-    Node* next; 
-}; 
- 
-class Info { 
-    Node* head = NULL; 
-public: 
-    Node* create(); 
-    void insertAtBegin(); 
-    void insertAtEnd(); 
-    void insertAfter(int rollno); 
-    void deleteAtBegin(); 
-    void deleteAtEnd(); 
-    void deleteByPrn(int prn); 
-    void display(); 
-    void count(); 
-    void concat(Info& other); 
-}; 
- 
-Node* Info::create() { 
-    Node* newNode = new Node; 
-    cout << "Enter name: "; 
-    cin >> newNode->name; 
-    cout << "Enter PRN: "; 
-    cin >> newNode->prn; 
-    cout << "Enter Roll No: "; 
-    cin >> newNode->rollno; 
-    newNode->next = NULL; 
-    return newNode; 
-} 
- 
-void Info::insertAtBegin() { 
-    Node* newNode = create(); 
-    newNode->next = head; 
-    head = newNode; 
-} 
- 
-void Info::insertAtEnd() { 
-    Node* newNode = create(); 
-    if (head == NULL) { 
-        head = newNode; 
-    } else { 
-        Node* temp = head; 
-        while (temp->next != NULL) { 
-            temp = temp->next; 
-        } 
-        temp->next = newNode; 
-    } 
-} 
- 
-void Info::insertAfter(int rollno) { 
-    Node* newNode = create(); 
-    Node* temp = head; 
-    while (temp != NULL && temp->rollno != rollno) { 
-        temp = temp->next; 
-    } 
-    if (temp != NULL) { 
-        newNode->next = temp->next; 
-        temp->next = newNode; 
-    } else { 
-        cout << "Roll number not found.\n"; 
-    } 
-} 
- 
-void Info::deleteAtBegin() { 
-    if (head != NULL) { 
-        Node* temp = head; 
-        head = head->next; 
-        delete temp; 
-    } else { 
-        cout << "List is empty.\n"; 
-    } 
-} 
- 
-void Info::deleteAtEnd() { 
-    if (head == NULL) { 
-        cout << "List is empty.\n"; 
-        return; 
-    } 
-    if (head->next == NULL) { 
-        delete head; 
-        head = NULL; 
-        return; 
-    } 
-    Node* temp = head; 
-    while (temp->next != NULL && temp->next->next != NULL) { 
-        temp = temp->next; 
-    } 
-    delete temp->next; 
-    temp->next = NULL; 
-} 
- 
-void Info::deleteByPrn(int prn) { 
-    if (head == NULL) { 
-        cout << "List is empty.\n"; 
-        return; 
-    } 
-    if (head->prn == prn) { 
-        Node* temp = head; 
-        head = head->next; 
-        delete temp; 
-        return; 
-    } 
-    Node* temp = head; 
-    while (temp->next != NULL && temp->next->prn != prn) { 
-        temp = temp->next; 
-    } 
-    if (temp->next != NULL) { 
-        Node* toDelete = temp->next; 
-        temp->next = temp->next->next; 
-        delete toDelete; 
-    } else { 
-        cout << "PRN not found.\n"; 
-    } 
-} 
- 
-void Info::display() { 
-    if (head == NULL) { 
-        cout << "List is empty.\n"; 
-        return; 
-    } 
-    Node* temp = head; 
-    cout << "PRN\tRoll No\tName\n"; 
-    while (temp != NULL) { 
-        cout << temp->prn << "\t" << temp->rollno << "\t" << temp->name << "\n"; 
-        temp = temp->next; 
-    } 
-} 
- 
-void Info::count() { 
-    int count = 0; 
-    Node* temp = head; 
-    while (temp != NULL) { 
-        count++; 
-        temp = temp->next; 
-    } 
-    cout << "Number of members: " << count << "\n"; 
-} 
- 
-void Info::concat(Info& other) { 
-    if (head == NULL) { 
-        head = other.head; 
-    } else { 
-        Node* temp = head; 
-        while (temp->next != NULL) { 
-            temp = temp->next; 
-        } 
-        temp->next = other.head; 
-    } 
-    other.head = NULL; 
-} 
- 
-int main() { 
-    Info list1, list2; 
-    int choice, rollno, prn; 
-    char cont = 'y'; 
- 
-    while (cont == 'y' || cont == 'Y') { 
-        cout << "\nChoose an option:\n"; 
-        cout << "1. Insert at beginning\n"; 
-        cout << "2. Insert at end\n"; 
-        cout << "3. Insert after a roll number\n"; 
-        cout << "4. Delete from beginning\n"; 
-        cout << "5. Delete from end\n"; 
-        cout << "6. Delete by PRN\n"; 
-        cout << "7. Count members\n"; 
-        cout << "8. Display list\n"; 
-        cout << "9. Concatenate two lists\n"; 
-        cout << "Enter your choice: "; 
-        cin >> choice; 
- 
-        switch (choice) { 
-            case 1: list1.insertAtBegin(); break; 
-            case 2: list1.insertAtEnd(); break; 
-            case 3: 
-                cout << "Enter roll number: "; 
-                cin >> rollno; 
-                list1.insertAfter(rollno); 
-                break; 
-            case 4: list1.deleteAtBegin(); break; 
-            case 5: list1.deleteAtEnd(); break; 
-            case 6: 
-                cout << "Enter PRN: "; 
-                cin >> prn; 
-                list1.deleteByPrn(prn); 
-                break; 
-            case 7: list1.count(); break; 
-            case 8: list1.display(); break; 
-            case 9: list1.concat(list2); break; 
-            default: cout << "Invalid choice.\n"; break; 
-        } 
- 
-        cout << "Do you want to continue? (y/n): "; 
-        cin >> cont; 
-    } 
- 
-    return 0; 
-} 
+#include<iostream>
+using namespace std;
+
+struct node{
+    int prn;
+    string name;
+    node* next;
+    node(int val, const std::string& n) : prn(val), name(n), next(NULL) {}
+
+};
+class list{
+    node* head;
+public:
+    list(): head(NULL){}
+
+    node* create(int val, string n){
+        node*newNode = new node(val,n);
+        if(newNode == NULL){
+            cout<<"Memeroy allocation failed"<<endl;
+            return NULL;
+        }
+        else{
+            newNode->prn = val;
+            newNode->name = n;
+            newNode->next = NULL;
+            return newNode;
+        }
+    }
+
+    void insertAtEnd(){
+        int val;
+        string n;
+        cout<<"ENter your prn: ";
+        cin>>val;
+        cout<<"Enter your name : ";
+        cin.ignore();
+        getline(cin, n);
+
+        node*newNode = create(val,n);
+        if(head == NULL){
+            head= newNode;
+        }
+        else{
+            node* temp = head;
+            while(temp->next!= NULL){
+                temp = temp -> next;
+            }
+            temp -> next = newNode;
+        
+        }
+        cout<<"Element inserted at the end.";
+    }
+
+    void insertAt(){
+
+        int val,pos;
+        string n;
+
+        cout<<"Enter the position u want to insert : ";
+        cin>>pos;
+        cout<<"Enter prn number : ";
+        cin>>val;
+        cout<<"Enter name : ";
+        cin.ignore();
+        getline(cin,n);
+
+        if(pos == 1){
+            insertAtbeg();
+        }
+        else{
+            node*temp = head;
+            int counter = 1;
+            while(temp->next!=NULL && counter < pos-1){
+                temp = temp->next;
+                counter++;
+            }
+            if(temp == NULL){
+                cout<<"Position is out of stock..,"<<endl;
+            }
+            else{
+                node* newNode = create(val,n);
+                newNode->next= temp->next;
+                temp->next = newNode;
+                cout<<"Member inserted at position.."<<pos<<endl;
+            }
+        }
+    }
+
+    void insertAtbeg(){
+        int val;
+        string n;
+        cout<<"Enter prn number : ";
+        cin>>val;
+        cout<<"Enter name: ";
+        cin.ignore();
+        getline(cin,n);
+
+        node*newNode = create(val,n);
+        newNode->next = head;
+        head = newNode;
+        cout<<"Presindent inserted..."<<endl;
+    }
+
+    void display(){
+        if(head == NULL){
+            cout<<"List is empty.."<<endl;
+        }
+
+        node*temp = head;
+        cout<<"List: "<<endl;
+
+        int pos = 1;
+        while(temp!=NULL){
+            if(pos == 1){
+                cout<<"President: ";
+            }
+            else if(temp->next == NULL){
+                cout<<"Secretary: ";
+            }
+            else{
+                cout<<"Member "<<pos-1<<": ";
+            }
+            cout<<temp->prn<<" - "<<temp->name<<endl;
+            temp = temp->next;
+            pos++;
+        }
+    }
+    void concatenate(list&other){
+        if (head == NULL){
+            head = other.head;
+        }
+        else{
+            node*temp = head;
+            while(temp -> next != NULL){
+                temp = temp->next;
+            }
+            temp->next = other.head;
+        }
+        cout<<"Lists have been concatenated."<<endl;
+        display();
+    }
+
+    void del(){
+        int r;
+        cout<<"Enter prn number to be deleted : ";
+        cin>>r;
+
+        if(head == NULL){
+            cout<<"List is empty..";
+        }
+
+        node*temp = head;
+        node*prev = NULL;
+
+        if(temp!= NULL && temp->prn == r){
+            head = temp->next;
+            delete temp;
+            cout<<"Member with prn "<<r<<" is deleted;";
+        }
+        while(temp!= NULL && temp->prn!= r){
+            prev = temp;
+            temp=temp->next;
+        }
+        if(temp == NULL){
+            cout<<"Member with prn "<<r<<" is not found";
+        }
+        prev->next = temp->next;
+        delete temp;
+        cout<<"Member with prn "<<r<<" is deleted.";
+    }
+
+    void op(){
+        while(true){
+            int choice;
+            cout<<"\nEnter: \n1. Add president \n2. Add secretary \n3. Add member at position \n4. display \n5. delete member \n0. Exit"<<endl;
+            cin>>choice;
+            switch ((choice))
+            {
+            case 1:
+                insertAtbeg();
+                break;
+            case 2:
+                insertAtEnd();
+                break;
+            case 3:
+                insertAt();
+                break;
+            case 4:
+                display();
+                break;
+            // case 5:
+            //     {
+            //         list otherlist;
+            //         cout<<"Enter details of other list: "<<endl;
+            //         otherlist.op();
+            //         concatenate(otherlist);
+            //     }
+            //     break;
+            case 5:
+                del();
+                break;
+            case 0:
+                return;
+            default:
+                cout<<"Invalid choice. Please try again.."<<endl;
+                break;
+            }
+        }
+    }
+};
+
+
+int main() {
+    list listA, listB;
+    while (true) {
+        int choice;
+        cout << "\nMain Menu: \n"
+             << "1. Operate on List A \n"
+             << "2. Operate on List B \n"
+             << "3. Concatenate List A and List B \n"
+             << "0. Exit\n"
+             << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            cout << "\nOperating on List A:" << endl;
+            listA.op();
+            break;
+        case 2:
+            cout << "\nOperating on List B:" << endl;
+            listB.op();
+            break;
+        case 3:
+            cout << "\nConcatenating List A and List B:" << endl;
+            listA.concatenate(listB);
+            break;
+        case 0:
+            cout << "Exiting the program. Goodbye!" << endl;
+            return 0;
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+            break;
+        }
+    }
+}
