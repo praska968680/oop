@@ -42,13 +42,13 @@ void bookAppointment(){
     while (temp!= NULL)
     {
         /* code */
-        if(temp->startTime = start){
-            if(temp->status = 0){
+        if(temp->startTime == start){
+            if(temp->status == 0){
                 temp->status= 2;
                 cout<<"Slot booked succesfully!!!"<<endl;
                 break;
             }
-            else if(temp->status = 1){
+            else if(temp->status == 1){
                 cout<<"Sorry, slot is already booked.."<<endl;
                 break;
             }
@@ -66,7 +66,7 @@ void cancelAppointment(){
     {
         /* code */
         if(temp->startTime == start){
-            if(temp->status = 1){
+            if(temp->status == 1){
                 temp->status= 0;
                 cout<<"Slot cancelled successfully."<<endl;
                 break;
